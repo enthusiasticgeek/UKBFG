@@ -268,7 +268,7 @@ class PyApp(Gtk.Window):
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
              Gtk.STOCK_SAVE, Gtk.ResponseType.OK))
         filter_kicad = Gtk.FileFilter()
-        filter_kicad.set_name("kicad footprint")
+        filter_kicad.set_name("KiCAD footprint")
         filter_kicad.add_pattern("*.kicad_mod")
         dialog.add_filter(filter_kicad)
         filter_any = Gtk.FileFilter()
@@ -280,10 +280,14 @@ class PyApp(Gtk.Window):
            print("File selected: " + dialog.get_filename())
            #buf = self.view.get_buffer()
            #self.RESULT = buf.get_text(buf.get_start_iter(), buf.get_end_iter(), True)
+           kicad_filename = dialog.get_filename()
+           # check file extension. If no file extension add it
+           if ".kicad_mod" not in kicad_filename:
+              kicad_filename += ".kicad_mod"
            try:
-                open(dialog.get_filename(), 'w').write(self.RESULT)
+                open(kicad_filename, 'w').write(self.RESULT)
            except SomeError as err:
-                print('Could not save %s: %s' % (dialog.get_filename(), err))
+                print('Could not save %s: %s' % (kicad_filename, err))
         elif response == Gtk.ResponseType.CANCEL:
                 print("Cancel clicked")
         dialog.destroy()
@@ -671,6 +675,13 @@ class PyApp(Gtk.Window):
             pt_x = -self.CALC_WIDTH/2+self.populate[i][0]*self.BALL_PITCH
             pt_y = -self.CALC_LENGTH/2+self.populate[i][1]*self.BALL_PITCH
             self.RESULT += "(pad "+str(self.COL[self.populate[i][1]]+str(self.ROW[self.populate[i][0]]))+" smd circle (at "+str(pt_x)+" "+str(pt_y)+") (size "+str(self.CALC_BALL_DIAMETER)+" "+str(self.CALC_BALL_DIAMETER)+") (layers F.Cu F.Paste F.Mask))" + "\n"
+
+        self.RESULT += "  #3D model section is commented below. Uncomment if WRL file available" + "\n"
+        self.RESULT += "  #(model Housings_BGA.3dshapes/BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+"_"+str(self.LENGTH)+".0x"+str(self.WIDTH)+".0mm_Pitch"+str(self.BALL_PITCH)+"mm.wrl" + "\n"
+        self.RESULT += "  #  (at (xyz 0 0 0))" + "\n"
+        self.RESULT += "  #  (scale (xyz 1 1 1))" + "\n"
+        self.RESULT += "  #  (rotate (xyz 0 0 0))" + "\n"
+        self.RESULT += "  #)" + "\n"
 
         self.RESULT += ")" + "\n"
         print self.RESULT
