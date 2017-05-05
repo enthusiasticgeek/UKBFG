@@ -9,7 +9,7 @@ Python 2.7, GTK+ 3.0, LibCairo
 
 Installation (Tested on Ubuntu 16.04 LTS):
 
-Note: Replace *apt* with *apt-get* for older versions of Ubuntu
+Note: Replace *apt* with *apt-get* for older versions of Ubuntu in the following text.
 
 1. Test for Python 2.7+ (usually installed) or install using *sudo apt install libpython2.7\**
 2. Test for GTK-3.0+ or install the packages using *sudo apt install libgtk3\** 
