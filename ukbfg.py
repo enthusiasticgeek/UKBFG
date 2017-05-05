@@ -94,6 +94,7 @@ class PyApp(Gtk.Window):
         hseparator = Gtk.HSeparator()
         self.ball_pitch_label = Gtk.Label("")
         self.ball_pitch_label.set_label("<b>Ball Pitch (mm)</b>")
+        self.ball_pitch_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.ball_pitch_label.set_use_markup(True)
         self.ball_pitch_entry = Gtk.Entry()
         self.ball_pitch_entry.set_visibility(True)
@@ -103,8 +104,10 @@ class PyApp(Gtk.Window):
         for child in self.ball_pitch_button : 
             child.set_label("<b>Update Ball Pitch</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
         ball_pitch_mils = self.BALL_PITCH/0.0254
         self.ball_pitch_mils_label = Gtk.Label(str(ball_pitch_mils) + " mil")
+        self.ball_pitch_mils_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("purple")[1])
 
 
         self.vbox1.pack_start(hseparator, False, False, 0)
@@ -118,6 +121,7 @@ class PyApp(Gtk.Window):
         hseparator = Gtk.HSeparator()
         self.ball_diameter_label = Gtk.Label("")
         self.ball_diameter_label.set_label("<b>Ball Diameter (mm) </b>")
+        self.ball_diameter_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.ball_diameter_label.set_use_markup(True)
         self.ball_diameter_entry = Gtk.Entry()
         self.ball_diameter_entry.set_visibility(True)
@@ -127,8 +131,10 @@ class PyApp(Gtk.Window):
         for child in self.ball_diameter_button : 
             child.set_label("<b>Update Ball Diameter</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
         ball_diameter_mils = self.BALL_DIAMETER/0.0254
         self.ball_diameter_mils_label = Gtk.Label(str(ball_diameter_mils) + " mil")
+        self.ball_diameter_mils_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("purple")[1])
 
         self.vbox2.pack_start(hseparator, False, False, 0)
         self.vbox2.pack_start(self.ball_diameter_label, False, False, 0)
@@ -141,6 +147,7 @@ class PyApp(Gtk.Window):
         hseparator = Gtk.HSeparator()
         self.ball_dimensions_label = Gtk.Label("")
         self.ball_dimensions_label.set_label("<b>Ball Dimensions (mm) </b>")
+        self.ball_dimensions_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.ball_dimensions_label.set_use_markup(True)
         self.ball_dimensions_entry_length = Gtk.Entry()
         self.ball_dimensions_entry_length.set_visibility(True)
@@ -154,6 +161,7 @@ class PyApp(Gtk.Window):
         for child in self.ball_dimensions_button : 
             child.set_label("<b>Update Ball dimensions</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
 
         self.vbox3.pack_start(hseparator, False, False, 0)
@@ -167,6 +175,7 @@ class PyApp(Gtk.Window):
         hseparator = Gtk.HSeparator()
         self.pins_label = Gtk.Label("")
         self.pins_label.set_label("<b>Pins</b>")
+        self.pins_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.pins_label.set_use_markup(True)
         self.pins_entry = Gtk.Entry()
         self.pins_entry.set_visibility(True)
@@ -176,6 +185,7 @@ class PyApp(Gtk.Window):
         for child in self.pins_button : 
             child.set_label("<b>Update pins</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
 
         self.vbox4.pack_start(hseparator, False, False, 0)
@@ -189,15 +199,18 @@ class PyApp(Gtk.Window):
         self.populate_depopulate_balls_label = Gtk.Label("")
         self.populate_depopulate_balls_label.set_label("<b>Select the area to populate or depopulate\nBGA balls by holding left mouse button\nand dragging</b>")
         self.populate_depopulate_balls_label.set_use_markup(True)
+        self.populate_depopulate_balls_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("blue")[1])
         self.populate_balls_button = Gtk.Button("")
         for child in self.populate_balls_button : 
             child.set_label("<b>Populate Balls</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
         self.depopulate_balls_button = Gtk.Button("")
         for child in self.depopulate_balls_button : 
             child.set_label("<b>Depopulate Balls</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
         self.vbox5.pack_start(hseparator, False, False, 0)
         self.vbox5.pack_start(self.populate_depopulate_balls_label, False, False, 0)
@@ -210,6 +223,7 @@ class PyApp(Gtk.Window):
         hseparator = Gtk.HSeparator()
         self.magnification_label = Gtk.Label("")
         self.magnification_label.set_label("<b>Magnification\n(Visualization Only)</b>")
+        self.magnification_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.magnification_label.set_use_markup(True)
         self.magnification_entry = Gtk.Entry()
         self.magnification_entry.set_visibility(True)
@@ -219,6 +233,7 @@ class PyApp(Gtk.Window):
         for child in self.magnification_button : 
             child.set_label("<b>Magnification [0,100]</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
         self.vbox6.pack_start(hseparator, False, False, 0)
         self.vbox6.pack_start(self.magnification_label, False, False, 0)
@@ -229,20 +244,24 @@ class PyApp(Gtk.Window):
  
         hseparator = Gtk.HSeparator()
         self.save_label = Gtk.Label("")
-        self.save_label.set_label("<b>Save</b>")
+        self.save_label.set_label("<b>Footprint Output</b>")
         self.save_label.set_use_markup(True)
+        self.save_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.save_button = Gtk.Button("")
         for child in self.save_button : 
             child.set_label("<b>Save KiCAD Footprint</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
         self.about_button = Gtk.Button("")
         for child in self.about_button : 
             child.set_label("<b>About UKBFG</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
         self.exit_button = Gtk.Button("")
         for child in self.exit_button : 
             child.set_label("<b>Exit UKBFG</b>")
             child.set_use_markup(True)
+            child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
         self.vbox7.pack_start(hseparator, False, False, 0)
         self.vbox7.pack_start(self.save_label, False, False, 0)
@@ -278,7 +297,7 @@ class PyApp(Gtk.Window):
         dialog.add_filter(filter_any)
         response = dialog.run()
         if response == Gtk.ResponseType.OK:
-           print("File selected: " + dialog.get_filename())
+           #print("File selected: " + dialog.get_filename())
            #buf = self.view.get_buffer()
            #self.RESULT = buf.get_text(buf.get_start_iter(), buf.get_end_iter(), True)
            kicad_filename = dialog.get_filename()
@@ -299,9 +318,9 @@ class PyApp(Gtk.Window):
         
 
     def on_about_button(self, widget):
-        about = Gtk.AboutDialog()
-        about.set_program_name("Unofficial KiCAD BGA Footprint Generator(UKBFG)")
-        about.set_version("0.1")
+        about = Gtk.AboutDialog(PyApp,self)
+        about.set_program_name("Unofficial KiCAD BGA Footprint Generator (UKBFG)")
+        about.set_version("Version: 0.1")
         about.set_copyright("Copyright (c) 2017 Pratik M Tambe <enthusiasticgeek@gmail.com>")
         about.set_comments("A simple tool for generating BGA footprint")
         about.set_website("https://github.com/enthusiasticgeek")
@@ -317,7 +336,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
   
@@ -328,7 +347,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
   
@@ -339,7 +358,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
  
@@ -350,7 +369,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
   
@@ -366,7 +385,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
 
   
@@ -377,7 +396,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
   
         elif self.BEGIN_MOUSE_X > self.END_MOUSE_X and self.BEGIN_MOUSE_Y < self.END_MOUSE_Y:
@@ -387,7 +406,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
  
         elif self.BEGIN_MOUSE_X > self.END_MOUSE_X and self.BEGIN_MOUSE_Y > self.END_MOUSE_Y:
@@ -397,7 +416,7 @@ class PyApp(Gtk.Window):
                       x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
                       y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
-                         print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
+                         #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
  
         else:
@@ -492,7 +511,7 @@ class PyApp(Gtk.Window):
            print ("Invalid magnification " + str(magnification)) 
 
     def on_button_press(self, w, e):
-        print 'PRESS: ', e.x, ' ', e.y
+        #print 'PRESS: ', e.x, ' ', e.y
         if e.type == Gdk.EventType.BUTTON_PRESS \
             and e.button == MouseButtons.LEFT_BUTTON:
             self.BEGIN_MOUSE_X = e.x
@@ -500,7 +519,7 @@ class PyApp(Gtk.Window):
         self.darea.queue_draw()
 
     def on_button_release(self, w, e):
-        print 'RELEASE: ',e.x, ' ', e.y
+        #print 'RELEASE: ',e.x, ' ', e.y
         if e.type == Gdk.EventType.BUTTON_RELEASE \
             and e.button == MouseButtons.LEFT_BUTTON:
             self.END_MOUSE_X = e.x
@@ -508,7 +527,7 @@ class PyApp(Gtk.Window):
         self.darea.queue_draw()
 
     def on_motion_notify_event(self, w, e):
-        print 'MOVING: ',e.x, ' ', e.y
+        #print 'MOVING: ',e.x, ' ', e.y
         if e.type == Gdk.EventType.MOTION_NOTIFY: 
             self.END_MOUSE_X = e.x
             self.END_MOUSE_Y = e.y
@@ -685,7 +704,7 @@ class PyApp(Gtk.Window):
         self.RESULT += "  #)" + "\n"
 
         self.RESULT += ")" + "\n"
-        print self.RESULT
+        #print self.RESULT
         
         return False
 
