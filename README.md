@@ -3,6 +3,12 @@
 
 This is a simple python based tool to generate Ball Grid Array (BGA) footprints for KiCAD EDA http://kicad-pcb.org/.
 
+Dependencies:
+
+Python 2.7
+GTK+ 3.0
+LibCairo
+
 Installation (Tested on Ubuntu 16.04 LTS):
 
 Note: Replace *apt* with *apt-get* for older versions of Ubuntu
@@ -13,7 +19,7 @@ Note: Replace *apt* with *apt-get* for older versions of Ubuntu
 
 Usage:
 
-1. Download *ukbfg.py* and cd to Download folder *chmod a+x ukbfg.py*. Run *./ukbfg.py* and select the BGA (One would need the mechanical dimensions page from the datasheet for a given component).
+1. Download *ukbfg.py* and cd to Download folder *chmod a+x ukbfg.py* and run *./ukbfg.py* and select the BGA (One would need the mechanical dimensions page from the datasheet for a given component).
 
 2. Select the Ball pitch (mm) of the IC.
 
