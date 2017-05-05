@@ -12,7 +12,7 @@
 #######################################################################################################################################################
 import gi
 gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk, Gdk, GdkPixbuf
 import math
 import cairo
 import time
@@ -304,7 +304,7 @@ class PyApp(Gtk.Window):
         about.set_copyright("Copyright (c) 2017 Pratik M Tambe <enthusiasticgeek@gmail.com>")
         about.set_comments("A simple tool for generating BGA footprint")
         about.set_website("https://github.com/enthusiasticgeek")
-        #about.set_logo(Gtk.gdk.pixbuf_new_from_file("battery.png"))
+        about.set_logo(GdkPixbuf.Pixbuf.new_from_file_at_size("UKBFG.png", 300, 185))
         about.run()
         about.destroy()
 
