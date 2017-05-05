@@ -5,9 +5,7 @@ This is a simple python based tool to generate Ball Grid Array (BGA) footprints 
 
 Dependencies:
 
-Python 2.7
-GTK+ 3.0
-LibCairo
+Python 2.7, GTK+ 3.0, LibCairo
 
 Installation (Tested on Ubuntu 16.04 LTS):
 
