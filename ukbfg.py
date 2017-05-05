@@ -49,6 +49,7 @@ class PyApp(Gtk.Window):
         self.set_title("UNOFFICIAL KiCAD BGA FOOTPRINT GENERATOR [UKBFG]")
         #self.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_X+200, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_Y+200)
         self.set_position(Gtk.WindowPosition.CENTER)
+        # DEC alphabet nomenclature implemented to avoid I (1), O (0) and S (5) - Letters that confuse with numbers.
         self.COL = ['A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
         self.ROW = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
         self.RESULT = ''
