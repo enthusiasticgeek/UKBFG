@@ -25,7 +25,7 @@ Usage:
 
 4. Select the Ball dimensions (mm) - Length/Width (both assumed to be same) of the IC. 
 
-   Note: Since almost all ICs that I have encouuntered in BGA are assumed to be square, it is highly recommended to keep Length/Width to be the same. 
+   Note: Since almost all ICs that I have encountered in BGA have equal length and width, I keep Length/Width to be the same. 
    
 5. Select the Number of Pins of the IC.
 
