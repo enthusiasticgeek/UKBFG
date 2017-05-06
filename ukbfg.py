@@ -146,7 +146,7 @@ class PyApp(Gtk.Window):
 
         hseparator = Gtk.HSeparator()
         self.ball_dimensions_label = Gtk.Label("")
-        self.ball_dimensions_label.set_label("<b>Ball Dimensions (mm) </b>")
+        self.ball_dimensions_label.set_label("<b>IC Dimensions (mm) [LxW] </b>")
         self.ball_dimensions_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.ball_dimensions_label.set_use_markup(True)
         self.ball_dimensions_entry_length = Gtk.Entry()
@@ -322,7 +322,7 @@ class PyApp(Gtk.Window):
         about.set_program_name("Unofficial KiCAD BGA Footprint Generator (UKBFG)")
         about.set_version("Version: 0.1")
         about.set_copyright("Copyright (c) 2017 Pratik M Tambe <enthusiasticgeek@gmail.com>")
-        about.set_comments("A simple tool for generating BGA footprint")
+        about.set_comments("A simple tool for generating KiCAD BGA footprint")
         about.set_website("https://github.com/enthusiasticgeek")
         about.set_logo(GdkPixbuf.Pixbuf.new_from_file_at_size("UKBFG.png", 300, 185))
         about.run()
