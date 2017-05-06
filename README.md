@@ -17,7 +17,7 @@ Note: Replace *apt* with *apt-get* for older versions of Ubuntu in the following
 
 Usage:
 
-1. Download *ukbfg.py* and cd to Download folder *chmod a+x ukbfg.py* and run *./ukbfg.py* and select the BGA parameters (one would need the mechanical dimensions page from the datasheet for a given component).
+1. Download *ukbfg.py* and cd to Download folder *chmod a+x ukbfg.py* and run *./ukbfg.py* and select the BGA parameters (one would need the mechanical dimensions page from the datasheet for a given component IC).
 
 2. Select the Ball pitch (mm) of the IC.
 
