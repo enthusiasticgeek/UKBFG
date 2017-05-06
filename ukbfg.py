@@ -535,6 +535,11 @@ class PyApp(Gtk.Window):
   
     def on_draw(self, widget, cr):
 
+        # Update parameters for the math calculation
+        self.CALC_LENGTH = (self.NUM_PINS-1)*self.BALL_PITCH
+        self.CALC_WIDTH = (self.NUM_PINS-1)*self.BALL_PITCH
+        self.CALC_BALL_DIAMETER = self.BALL_DIAMETER
+
         #Initialize
 
         self.RESULT=''
@@ -683,6 +688,12 @@ class PyApp(Gtk.Window):
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
+
+
+#        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
+#        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
+#        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
+#        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
 
 
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
