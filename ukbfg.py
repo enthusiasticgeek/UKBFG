@@ -662,7 +662,7 @@ class PyApp(Gtk.Window):
         self.dt = datetime.datetime.now()
         self.CALC_TEDIT = hex(int(time.mktime(self.dt.timetuple()))).upper().replace('0X','')
 
-        self.RESULT += "(module BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+"_"+str(self.LENGTH)+".0x"+str(self.WIDTH)+".0mm_Pitch"+str(self.BALL_PITCH)+"mm (layer F.Cu) (tedit "+str(self.CALC_TEDIT)+")" + "\n"
+        self.RESULT += "(module BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+"_"+str(self.LENGTH)+"x"+str(self.WIDTH)+"mm_Pitch"+str(self.BALL_PITCH)+"mm (layer F.Cu) (tedit "+str(self.CALC_TEDIT)+")" + "\n"
         self.RESULT += "  (descr \"BGA-"+str(self.PACKAGE)+", "+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+", "+str(self.LENGTH)+"x"+str(self.WIDTH)+"mm package, pitch "+str(self.BALL_PITCH)+"mm\")" + "\n"
         self.RESULT += "  (tags BGA-"+str(self.PACKAGE)+")" + "\n"
         self.RESULT += "  (attr smd)" + "\n"
@@ -688,13 +688,6 @@ class PyApp(Gtk.Window):
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
-
-
-#        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
-#        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
-#        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
-#        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
-
 
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
         self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
