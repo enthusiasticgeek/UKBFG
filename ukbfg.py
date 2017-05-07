@@ -40,8 +40,8 @@ class PyApp(Gtk.Window):
         self.SCALING = 50
         self.PACKAGE = 100
         self.NUM_PINS = 10    
-        self.LENGTH = 9 # BGA length 9 mm   # Vertical     
-        self.WIDTH = 9  # BGA width 9 mm    # Horizontal   
+        self.LENGTH = 9.0 # BGA length 9 mm   # Vertical     
+        self.WIDTH = 9.0  # BGA width 9 mm    # Horizontal   
         self.OFFSET_X = 100
         self.OFFSET_Y = 100
         self.BALL_PITCH = 0.8 # ball pitch is 0.08 mm
@@ -675,24 +675,28 @@ class PyApp(Gtk.Window):
 
         # Below parameters may be adjusted.
 
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+0.65+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2-0.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+0.65+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.65+self.BALL_DIAMETER)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+0.65+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+0.65+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2-0.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.65+self.BALL_DIAMETER)+") (layer F.SilkS) (width 0.12))" + "\n"
+        # Top left -> right angular F.Silk
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.1)+" -"+ str(+self.LENGTH/2-1.70)+") (end -"+ str(self.LENGTH/2+0.1)+" -"+ str(self.LENGTH/2+0.1)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.1)+" -"+ str(+self.LENGTH/2+0.1)+") (end -"+ str(self.LENGTH/2-1.70)+" -"+ str(self.LENGTH/2+0.1)+") (layer F.SilkS) (width 0.12))" + "\n"
 
-        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.55+self.BALL_DIAMETER)+") (layer F.SilkS) (width 0.12))" + "\n"
+        # F.SilkS Box
+        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2)+" -"+ str(+self.LENGTH/2)+") (end -"+ str(self.LENGTH/2)+" -"+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2)+" -"+ str(+self.LENGTH/2)+") (end -"+ str(self.LENGTH/2)+" "+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2)+" "+ str(+self.LENGTH/2)+") (end "+ str(self.LENGTH/2)+" "+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2)+" "+ str(+self.LENGTH/2)+") (end "+ str(self.LENGTH/2)+" -"+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
 
-        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.45-1+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+0.45-1+self.BALL_DIAMETER)+") (layer F.Fab) (width 0.1))" + "\n"
+        # F.Fab Box
+        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.1)+") (end -"+ str(self.LENGTH/2-0.1)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.1)+") (end -"+ str(self.LENGTH/2-0.1)+" "+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2-0.1)+" "+ str(+self.LENGTH/2-0.1)+") (end "+ str(self.LENGTH/2-0.1)+" "+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2-0.1)+" "+ str(+self.LENGTH/2-0.1)+") (end "+ str(self.LENGTH/2-0.1)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.5)+") (end -"+ str(self.LENGTH/2-0.5)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
 
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(+self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
-        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
-        self.RESULT += "  (fp_line (start "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (end -"+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+" "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        # F.CrtYd Box
+        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2+0.7)+" -"+ str(+self.LENGTH/2+0.7)+") (end -"+ str(self.LENGTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.7)+" -"+ str(+self.LENGTH/2+0.7)+") (end -"+ str(self.LENGTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.LENGTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.LENGTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
 
         #Origin X and Y
         for i in range(0, len(self.populate)):
