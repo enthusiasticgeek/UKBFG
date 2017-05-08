@@ -38,7 +38,8 @@ class PyApp(Gtk.Window):
         # Initialize with some reasonable parameters
         self.SCALING = 50
         self.PACKAGE = 100
-        self.NUM_PINS = 10    
+        self.NUM_PINS_LENGTH = 10    
+        self.NUM_PINS_WIDTH = 6    
         self.LENGTH = 9.0 # BGA length 9 mm   # Vertical     
         self.WIDTH = 9.0  # BGA width 9 mm    # Horizontal   
         self.OFFSET_X = 100
@@ -46,7 +47,7 @@ class PyApp(Gtk.Window):
         self.BALL_PITCH = 0.8 # ball pitch is 0.08 mm
         self.BALL_DIAMETER = 0.45 # ball diameter is 0.04 mm
         self.set_title("UNOFFICIAL KiCAD BGA FOOTPRINT GENERATOR [UKBFG]")
-        #self.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_X+200, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_Y+200)
+        #self.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS_WIDTH)+self.OFFSET_X+200, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS_LENGTH)+self.OFFSET_Y+200)
         self.set_position(Gtk.WindowPosition.CENTER)
         # DEC alphabet nomenclature implemented to avoid I (1), O (0) and S (5) - Letters that confuse with numbers.
         self.COL = ['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','T','U','V','W','X','Y','Z']
@@ -54,14 +55,14 @@ class PyApp(Gtk.Window):
         self.RESULT = ''
 
         # Parameters for the math calculation
-        self.CALC_LENGTH = (self.NUM_PINS-1)*self.BALL_PITCH
-        self.CALC_WIDTH = (self.NUM_PINS-1)*self.BALL_PITCH
+        self.CALC_LENGTH = (self.NUM_PINS_LENGTH-1)*self.BALL_PITCH
+        self.CALC_WIDTH = (self.NUM_PINS_WIDTH-1)*self.BALL_PITCH
         self.CALC_BALL_DIAMETER = self.BALL_DIAMETER
 
         self.connect("destroy", Gtk.main_quit)
 
         self.darea = Gtk.DrawingArea()
-        self.darea.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_X+50, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_Y+50)
+        self.darea.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS_WIDTH)+self.OFFSET_X+50, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS_LENGTH)+self.OFFSET_Y+50)
         self.darea.connect("draw", self.on_draw)
         self.darea.set_events(Gdk.EventMask.BUTTON_PRESS_MASK | Gdk.EventMask.BUTTON_RELEASE_MASK | Gdk.EventMask.BUTTON1_MOTION_MASK)  
  
@@ -176,10 +177,14 @@ class PyApp(Gtk.Window):
         self.pins_label.set_label("<b>Pins</b>")
         self.pins_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.pins_label.set_use_markup(True)
-        self.pins_entry = Gtk.Entry()
-        self.pins_entry.set_visibility(True)
-        self.pins_entry.set_max_length(5)
-        self.pins_entry.set_text(str(self.NUM_PINS))
+        self.pins_entry_length = Gtk.Entry()
+        self.pins_entry_length.set_visibility(True)
+        self.pins_entry_length.set_max_length(5)
+        self.pins_entry_length.set_text(str(self.NUM_PINS_LENGTH))
+        self.pins_entry_width = Gtk.Entry()
+        self.pins_entry_width.set_visibility(True)
+        self.pins_entry_width.set_max_length(5)
+        self.pins_entry_width.set_text(str(self.NUM_PINS_WIDTH))
         self.pins_button = Gtk.Button("")
         for child in self.pins_button : 
             child.set_label("<b>Update pins</b>")
@@ -189,7 +194,8 @@ class PyApp(Gtk.Window):
 
         self.vbox4.pack_start(hseparator, False, False, 0)
         self.vbox4.pack_start(self.pins_label, False, False, 0)
-        self.vbox4.pack_start(self.pins_entry, False, False, 0)
+        self.vbox4.pack_start(self.pins_entry_length, False, False, 0)
+        self.vbox4.pack_start(self.pins_entry_width, False, False, 0)
         self.vbox4.pack_start(self.pins_button, False, False, 0)
         
         self.pins_button.connect("clicked", self.on_pins_button)
@@ -277,8 +283,8 @@ class PyApp(Gtk.Window):
         self.show_all()
 
         #initialize
-        for x in range(0, self.NUM_PINS):
-          for y in range(0, self.NUM_PINS):
+        for x in range(0, self.NUM_PINS_WIDTH):
+          for y in range(0, self.NUM_PINS_LENGTH):
             self.populate.append([x,y])
 
     def on_save_button(self, widget):
@@ -329,45 +335,45 @@ class PyApp(Gtk.Window):
 
     def on_populate_balls_button(self, widget):
         if self.BEGIN_MOUSE_X < self.END_MOUSE_X and self.BEGIN_MOUSE_Y < self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
   
         elif self.BEGIN_MOUSE_X < self.END_MOUSE_X and self.BEGIN_MOUSE_Y > self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
   
         elif self.BEGIN_MOUSE_X > self.END_MOUSE_X and self.BEGIN_MOUSE_Y < self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
  
         elif self.BEGIN_MOUSE_X > self.END_MOUSE_X and self.BEGIN_MOUSE_Y > self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be populated")                     
                          if [x,y] not in self.populate:
                             self.populate.append([x,y])
@@ -378,43 +384,43 @@ class PyApp(Gtk.Window):
 
     def on_depopulate_balls_button(self, widget):
         if self.BEGIN_MOUSE_X < self.END_MOUSE_X and self.BEGIN_MOUSE_Y < self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
 
   
         elif self.BEGIN_MOUSE_X < self.END_MOUSE_X and self.BEGIN_MOUSE_Y > self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
   
         elif self.BEGIN_MOUSE_X > self.END_MOUSE_X and self.BEGIN_MOUSE_Y < self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
  
         elif self.BEGIN_MOUSE_X > self.END_MOUSE_X and self.BEGIN_MOUSE_Y > self.END_MOUSE_Y:
-           for x in range(0, self.NUM_PINS):
-               for y in range(0, self.NUM_PINS):
-                   if x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X < self.BEGIN_MOUSE_X and \
-                      x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X > self.END_MOUSE_X and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
-                      y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y > self.END_MOUSE_Y :
+           for x in range(0, self.NUM_PINS_WIDTH):
+               for y in range(0, self.NUM_PINS_LENGTH):
+                   if x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X < self.BEGIN_MOUSE_X and \
+                      x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X > self.END_MOUSE_X and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y < self.BEGIN_MOUSE_Y and \
+                      y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y > self.END_MOUSE_Y :
                          #print(str(self.COL[y]+str(self.ROW[x]))+ " is to be depopulated")                     
                          while [x,y] in self.populate: self.populate.remove([x,y])
  
@@ -425,33 +431,33 @@ class PyApp(Gtk.Window):
     def erase_ball(cr,x,y):
         # Draw the Ball Grid Array Balls
         cr.set_source_rgb(0.8, 0.8, 0.8)
-        cr.arc(x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
+        cr.arc(x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
         cr.fill()
         self.darea.queue_draw()
 
     def draw_ball(cr,x,y):
         # Draw the Ball Grid Array Balls
         cr.set_source_rgb(0.6, 0.6, 0.6)
-        cr.arc(x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
+        cr.arc(x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
         cr.fill()
         self.darea.queue_draw()
 
     def erase_ball_text(cr,x,y):
         # Draw the Ball Grid Array Balls Text 
         cr.set_source_rgb(0.8, 0.8, 0.8)
-        cr.move_to(x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y)
+        cr.move_to(x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y)
         cr.show_text(str(self.COL[y]+str(self.ROW[x])))
         self.darea.queue_draw()
 
     def draw_ball_text(cr,x,y):
         # Draw the Ball Grid Array Balls Text 
         cr.set_source_rgb(0.0, 0.0, 1.0)
-        cr.move_to(x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y)
+        cr.move_to(x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y)
         cr.show_text(str(self.COL[y]+str(self.ROW[x])))
         self.darea.queue_draw()
 
     def update_area(self):
-        self.darea.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_X+50, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_Y+50)
+        self.darea.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS_WIDTH)+self.OFFSET_X+50, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS_LENGTH)+self.OFFSET_Y+50)
 
     def on_ball_pitch_button(self, widget):
         #TODO Other sanity checks -> try except block
@@ -491,9 +497,11 @@ class PyApp(Gtk.Window):
 
     def on_pins_button(self, widget):
         #TODO Other sanity checks -> try except block
-        pins = int(self.pins_entry.get_text())
-        if isinstance(pins, (int)) == True:
-           self.NUM_PINS = pins
+        pins_length = int(self.pins_entry_length.get_text())
+        pins_width = int(self.pins_entry_width.get_text())
+        if isinstance(pins_length, (int)) == True and isinstance(pins_width, (int)) == True:
+           self.NUM_PINS_LENGTH = pins_length
+           self.NUM_PINS_WIDTH = pins_width
            self.update_area()
            self.darea.queue_draw()
         else:
@@ -535,8 +543,8 @@ class PyApp(Gtk.Window):
     def on_draw(self, widget, cr):
 
         # Update parameters for the math calculation
-        self.CALC_LENGTH = (self.NUM_PINS-1)*self.BALL_PITCH
-        self.CALC_WIDTH = (self.NUM_PINS-1)*self.BALL_PITCH
+        self.CALC_LENGTH = (self.NUM_PINS_LENGTH-1)*self.BALL_PITCH
+        self.CALC_WIDTH = (self.NUM_PINS_WIDTH-1)*self.BALL_PITCH
         self.CALC_BALL_DIAMETER = self.BALL_DIAMETER
 
         #Initialize
@@ -547,57 +555,57 @@ class PyApp(Gtk.Window):
 
         # If BGA count exceeds 23*23 pins
         cr.set_source_rgb(0.0, 0.0, 0.0)
-        if( self.NUM_PINS < 2 or self.NUM_PINS > 23):
+        if(( self.NUM_PINS_LENGTH < 2 or self.NUM_PINS_LENGTH > 23) or ( self.NUM_PINS_WIDTH < 2 or self.NUM_PINS_WIDTH > 23 )):
             cr.move_to(self.OFFSET_X-99, self.OFFSET_Y-40)
-            cr.show_text("BGA PIN COUNT outside [2,23]")
+            cr.show_text("BGA PIN [Width or Length] COUNT outside [2,23]")
             return False
 
         # Set Axis names
 
         # COL - Y - AXIS
         cr.set_source_rgb(0.0, 0.0, 1.0)
-        for y in range(0, self.NUM_PINS):
+        for y in range(0, self.NUM_PINS_LENGTH):
             cr.move_to(self.OFFSET_X-20, self.OFFSET_X+self.BALL_PITCH*self.SCALING*y)
             cr.show_text(str(self.COL[y]))
  
         # ROW - X - AXIS
         cr.set_source_rgb(0.0, 0.0, 1.0)
-        for x in range(0, self.NUM_PINS):
+        for x in range(0, self.NUM_PINS_WIDTH):
             cr.move_to(self.OFFSET_Y+self.BALL_PITCH*self.SCALING*x, self.OFFSET_Y-20)
             cr.show_text(str(self.ROW[x]))
         
         # Draw the Ball Grid Array BGA rectangular plan that connect first BGA ball to the last BGA ball 
         cr.set_source_rgb(0.8, 0.8, 0.8)
-        cr.rectangle(self.OFFSET_X,self.OFFSET_Y,(self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS, (self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS)
+        cr.rectangle(self.OFFSET_X,self.OFFSET_Y,(self.NUM_PINS_WIDTH-1)*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH, (self.NUM_PINS_LENGTH-1)*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH)
         cr.fill()
 
         #outer rectangle that defines BGA
         cr.set_source_rgb(0.8, 0.4, 0.4)
-        cr.rectangle(self.OFFSET_X - (self.WIDTH-self.BALL_PITCH*self.NUM_PINS)/2, self.OFFSET_Y - (self.LENGTH-self.BALL_PITCH*self.NUM_PINS)/2,(self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+(self.WIDTH-self.BALL_PITCH*self.NUM_PINS),(self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+(self.LENGTH-self.BALL_PITCH*self.NUM_PINS))
+        cr.rectangle(self.OFFSET_X - (self.WIDTH-self.BALL_PITCH*self.NUM_PINS_WIDTH)/2, self.OFFSET_Y - (self.LENGTH-self.BALL_PITCH*self.NUM_PINS_LENGTH)/2,(self.NUM_PINS_WIDTH-1)*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+(self.WIDTH-self.BALL_PITCH*self.NUM_PINS_WIDTH),(self.NUM_PINS_LENGTH-1)*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+(self.LENGTH-self.BALL_PITCH*self.NUM_PINS_LENGTH))
         cr.stroke()
 
         # Draw the Ball Grid Array Balls
-        for x in range(0, self.NUM_PINS):
-          for y in range(0, self.NUM_PINS):
+        for x in range(0, self.NUM_PINS_WIDTH):
+          for y in range(0, self.NUM_PINS_LENGTH):
             if [x,y] in self.populate:
               cr.set_source_rgb(0.6, 0.6, 0.6)
             else:
               cr.set_source_rgb(0.8, 0.8, 0.8)
-            cr.arc(x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
+            cr.arc(x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
             cr.fill()
  
         # Draw the Ball Grid Array Balls Text 
-        for x in range(0, self.NUM_PINS):
-          for y in range(0, self.NUM_PINS):
+        for x in range(0, self.NUM_PINS_WIDTH):
+          for y in range(0, self.NUM_PINS_LENGTH):
             if [x,y] in self.populate:
               cr.set_source_rgb(0.0, 0.0, 1.0)
             else:
               cr.set_source_rgb(0.8, 0.8, 0.8)
-            cr.move_to(x*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y)
+            cr.move_to(x*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X, y*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y)
             cr.show_text(str(self.COL[y]+str(self.ROW[x])))
 
         # Draw the text indicating BGA pitch
-        cr.move_to(self.OFFSET_X,(self.OFFSET_Y+(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y)/2)
+        cr.move_to(self.OFFSET_X,(self.OFFSET_Y+(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y)/2)
         cr.set_source_rgb(1.0, 0.0, 0.0)
         cr.set_font_size(self.BALL_PITCH*0.3*self.SCALING)
         cr.show_text("  "+str(self.BALL_PITCH) + " mm pitch")
@@ -606,11 +614,11 @@ class PyApp(Gtk.Window):
         cr.set_source_rgb(1.0, 0.0, 0.0)
         cr.set_line_width(2)
         cr.move_to(self.OFFSET_X, self.OFFSET_Y)
-        cr.line_to(self.OFFSET_X, (self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y)
+        cr.line_to(self.OFFSET_X, (self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y)
         cr.stroke()
 
         # Draw the text indicating BGA length
-        cr.move_to(self.OFFSET_X-99,int(self.OFFSET_Y+(self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y)/2)
+        cr.move_to(self.OFFSET_X-99,int(self.OFFSET_Y+(self.NUM_PINS_LENGTH-1)*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y)/2)
         cr.set_source_rgb(0.3, 0.4, 0.5)
         cr.set_font_size(self.BALL_PITCH*0.3*self.SCALING)
         cr.show_text("  "+str(self.LENGTH) + " mm length")
@@ -619,27 +627,27 @@ class PyApp(Gtk.Window):
         # Draw the line indicating BGA length
         cr.set_source_rgb(0.3, 0.4, 0.5)
         cr.set_line_width(2)
-        cr.move_to(self.OFFSET_X - 40, self.OFFSET_Y - (self.LENGTH-self.BALL_PITCH*self.NUM_PINS)/2)
-        cr.line_to(self.OFFSET_X - 40, (self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_Y+(self.LENGTH-self.BALL_PITCH*self.NUM_PINS)/2)
+        cr.move_to(self.OFFSET_X - 40, self.OFFSET_Y - (self.LENGTH-self.BALL_PITCH*self.NUM_PINS_LENGTH)/2)
+        cr.line_to(self.OFFSET_X - 40, (self.NUM_PINS_LENGTH-1)*(self.BALL_PITCH*self.NUM_PINS_LENGTH)*self.SCALING/self.NUM_PINS_LENGTH+self.OFFSET_Y+(self.LENGTH-self.BALL_PITCH*self.NUM_PINS_LENGTH)/2)
         cr.stroke()
 
         # Draw the text indicating BGA width
-        cr.move_to(int(self.OFFSET_X+(self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X)/2, self.OFFSET_Y - 40)
+        cr.move_to(int(self.OFFSET_X+(self.NUM_PINS_WIDTH-1)*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X)/2, self.OFFSET_Y - 40)
         cr.set_source_rgb(0.3, 0.4, 0.5)
         cr.set_font_size(self.BALL_PITCH*0.3*self.SCALING)
-        cr.show_text("  "+str(self.LENGTH) + " mm width")
+        cr.show_text("  "+str(self.WIDTH) + " mm width")
 
 
         # Draw the line indicating BGA width
         cr.set_source_rgb(0.3, 0.4, 0.5)
         cr.set_line_width(2)
-        cr.move_to(self.OFFSET_X - (self.WIDTH-self.BALL_PITCH*self.NUM_PINS)/2, self.OFFSET_Y - 40)
-        cr.line_to((self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X+(self.WIDTH-self.BALL_PITCH*self.NUM_PINS)/2, self.OFFSET_Y - 40)
+        cr.move_to(self.OFFSET_X - (self.WIDTH-self.BALL_PITCH*self.NUM_PINS_WIDTH)/2, self.OFFSET_Y - 40)
+        cr.line_to((self.NUM_PINS_WIDTH-1)*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X+(self.WIDTH-self.BALL_PITCH*self.NUM_PINS_WIDTH)/2, self.OFFSET_Y - 40)
         cr.stroke()
 
 
         # Draw the text indicating BGA diameter
-        cr.move_to(int(self.OFFSET_X+(self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X)/2, self.OFFSET_Y - 80)
+        cr.move_to(int(self.OFFSET_X+(self.NUM_PINS_WIDTH-1)*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X)/2, self.OFFSET_Y - 80)
         cr.set_source_rgb(0.3, 0.4, 0.0)
         cr.set_font_size(self.BALL_PITCH*0.3*self.SCALING)
         cr.show_text("  "+str(self.BALL_DIAMETER) + " mm diameter")
@@ -647,7 +655,7 @@ class PyApp(Gtk.Window):
         # Draw the line indicating BGA width
         cr.set_source_rgb(0.3, 0.4, 0.0)
         cr.set_line_width(2)
-        cr.arc(int(self.OFFSET_X+(self.NUM_PINS-1)*(self.BALL_PITCH*self.NUM_PINS)*self.SCALING/self.NUM_PINS+self.OFFSET_X)/2, self.OFFSET_Y - 60, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
+        cr.arc(int(self.OFFSET_X+(self.NUM_PINS_WIDTH-1)*(self.BALL_PITCH*self.NUM_PINS_WIDTH)*self.SCALING/self.NUM_PINS_WIDTH+self.OFFSET_X)/2, self.OFFSET_Y - 60, self.BALL_DIAMETER/2*self.SCALING, 0, 2*math.pi)
         cr.fill()
  
         cr.set_source_rgb(0.3, 0.4, 0.5)
@@ -659,41 +667,41 @@ class PyApp(Gtk.Window):
         self.dt = datetime.datetime.now()
         self.CALC_TEDIT = hex(int(time.mktime(self.dt.timetuple()))).upper().replace('0X','')
 
-        self.RESULT += "(module BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+"_"+str(self.LENGTH)+"x"+str(self.WIDTH)+"mm_Pitch"+str(self.BALL_PITCH)+"mm (layer F.Cu) (tedit "+str(self.CALC_TEDIT)+")" + "\n"
-        self.RESULT += "  (descr \"BGA-"+str(self.PACKAGE)+", "+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+", "+str(self.LENGTH)+"x"+str(self.WIDTH)+"mm package, pitch "+str(self.BALL_PITCH)+"mm\")" + "\n"
+        self.RESULT += "(module BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS_WIDTH)+"x"+str(self.NUM_PINS_LENGTH)+"_"+str(self.WIDTH)+"x"+str(self.LENGTH)+"mm_Pitch"+str(self.BALL_PITCH)+"mm (layer F.Cu) (tedit "+str(self.CALC_TEDIT)+")" + "\n"
+        self.RESULT += "  (descr \"BGA-"+str(self.PACKAGE)+", "+str(self.NUM_PINS_WIDTH)+"x"+str(self.NUM_PINS_LENGTH)+", "+str(self.WIDTH)+"x"+str(self.LENGTH)+"mm package, pitch "+str(self.BALL_PITCH)+"mm\")" + "\n"
         self.RESULT += "  (tags BGA-"+str(self.PACKAGE)+")" + "\n"
         self.RESULT += "  (attr smd)" + "\n"
         self.RESULT += "  (fp_text reference REF** (at 0 "+ str(-self.CALC_WIDTH/2-1.50-self.BALL_DIAMETER) +") (layer F.SilkS)" + "\n"
         self.RESULT += "    (effects (font (size 1 1) (thickness 0.15)))" + "\n"
         self.RESULT += "  )" + "\n"
-        self.RESULT += "  (fp_text value BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+"_"+str(self.LENGTH)+".0x"+str(self.WIDTH)+".0mm_Pitch"+str(self.BALL_PITCH)+"mm (at 0 "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER) +") (layer F.Fab)" + "\n"
+        self.RESULT += "  (fp_text value BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS_WIDTH)+"x"+str(self.NUM_PINS_LENGTH)+"_"+str(self.WIDTH)+".0x"+str(self.LENGTH)+".0mm_Pitch"+str(self.BALL_PITCH)+"mm (at 0 "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER) +") (layer F.Fab)" + "\n"
         self.RESULT += "    (effects (font (size 1 1) (thickness 0.15)))" + "\n"
         self.RESULT += "  )" + "\n"
 
         # Below parameters may be adjusted.
 
         # Top left -> right angular F.Silk
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.1)+" -"+ str(+self.LENGTH/2-1.70)+") (end -"+ str(self.LENGTH/2+0.1)+" -"+ str(self.LENGTH/2+0.1)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.1)+" -"+ str(+self.LENGTH/2+0.1)+") (end -"+ str(self.LENGTH/2-1.70)+" -"+ str(self.LENGTH/2+0.1)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2+0.1)+" -"+ str(+self.LENGTH/2-1.70)+") (end -"+ str(self.WIDTH/2+0.1)+" -"+ str(self.LENGTH/2+0.1)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2+0.1)+" -"+ str(+self.LENGTH/2+0.1)+") (end -"+ str(self.WIDTH/2-1.70)+" -"+ str(self.LENGTH/2+0.1)+") (layer F.SilkS) (width 0.12))" + "\n"
 
         # F.SilkS Box
-        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2)+" -"+ str(+self.LENGTH/2)+") (end -"+ str(self.LENGTH/2)+" -"+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2)+" -"+ str(+self.LENGTH/2)+") (end -"+ str(self.LENGTH/2)+" "+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2)+" "+ str(+self.LENGTH/2)+") (end "+ str(self.LENGTH/2)+" "+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
-        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2)+" "+ str(+self.LENGTH/2)+") (end "+ str(self.LENGTH/2)+" -"+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.WIDTH/2)+" -"+ str(+self.LENGTH/2)+") (end -"+ str(self.WIDTH/2)+" -"+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2)+" -"+ str(+self.LENGTH/2)+") (end -"+ str(self.WIDTH/2)+" "+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2)+" "+ str(+self.LENGTH/2)+") (end "+ str(self.WIDTH/2)+" "+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.WIDTH/2)+" "+ str(+self.LENGTH/2)+") (end "+ str(self.WIDTH/2)+" -"+ str(self.LENGTH/2)+") (layer F.SilkS) (width 0.12))" + "\n"
 
         # F.Fab Box
-        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.1)+") (end -"+ str(self.LENGTH/2-0.1)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.1)+") (end -"+ str(self.LENGTH/2-0.1)+" "+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2-0.1)+" "+ str(+self.LENGTH/2-0.1)+") (end "+ str(self.LENGTH/2-0.1)+" "+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2-0.1)+" "+ str(+self.LENGTH/2-0.1)+") (end "+ str(self.LENGTH/2-0.1)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.5)+") (end -"+ str(self.LENGTH/2-0.5)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.WIDTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.1)+") (end -"+ str(self.WIDTH/2-0.1)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.1)+") (end -"+ str(self.WIDTH/2-0.1)+" "+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2-0.1)+" "+ str(+self.LENGTH/2-0.1)+") (end "+ str(self.WIDTH/2-0.1)+" "+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.WIDTH/2-0.1)+" "+ str(+self.LENGTH/2-0.1)+") (end "+ str(self.WIDTH/2-0.1)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2-0.1)+" -"+ str(+self.LENGTH/2-0.5)+") (end -"+ str(self.WIDTH/2-0.5)+" -"+ str(self.LENGTH/2-0.1)+") (layer F.Fab) (width 0.1))" + "\n"
 
         # F.CrtYd Box
-        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2+0.7)+" -"+ str(+self.LENGTH/2+0.7)+") (end -"+ str(self.LENGTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.7)+" -"+ str(+self.LENGTH/2+0.7)+") (end -"+ str(self.LENGTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
-        self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.LENGTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
-        self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.LENGTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.WIDTH/2+0.7)+" -"+ str(+self.LENGTH/2+0.7)+") (end -"+ str(self.WIDTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2+0.7)+" -"+ str(+self.LENGTH/2+0.7)+") (end -"+ str(self.WIDTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.WIDTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
+        self.RESULT += "  (fp_line (start "+ str(self.WIDTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.WIDTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
 
         #Origin X and Y for SMD balls
         for i in range(0, len(self.populate)):
@@ -702,7 +710,7 @@ class PyApp(Gtk.Window):
             self.RESULT += "(pad "+str(self.COL[self.populate[i][1]]+str(self.ROW[self.populate[i][0]]))+" smd circle (at "+str(pt_x)+" "+str(pt_y)+") (size "+str(self.CALC_BALL_DIAMETER)+" "+str(self.CALC_BALL_DIAMETER)+") (layers F.Cu F.Paste F.Mask))" + "\n"
 
         self.RESULT += "  #3D model section is commented below. Uncomment if WRL file available" + "\n"
-        self.RESULT += "  #(model Housings_BGA.3dshapes/BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS)+"x"+str(self.NUM_PINS)+"_"+str(self.LENGTH)+".0x"+str(self.WIDTH)+".0mm_Pitch"+str(self.BALL_PITCH)+"mm.wrl" + "\n"
+        self.RESULT += "  #(model Housings_BGA.3dshapes/BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS_WIDTH)+"x"+str(self.NUM_PINS_LENGTH)+"_"+str(self.WIDTH)+"x"+str(self.LENGTH)+"mm_Pitch"+str(self.BALL_PITCH)+"mm.wrl" + "\n"
         self.RESULT += "  #  (at (xyz 0 0 0))" + "\n"
         self.RESULT += "  #  (scale (xyz 1 1 1))" + "\n"
         self.RESULT += "  #  (rotate (xyz 0 0 0))" + "\n"
@@ -714,3 +722,4 @@ class PyApp(Gtk.Window):
 
 PyApp()
 Gtk.main()
+
