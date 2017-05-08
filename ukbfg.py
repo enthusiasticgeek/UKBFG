@@ -37,7 +37,7 @@ class PyApp(Gtk.Window):
        
         # Initialize with some reasonable parameters
         self.SCALING = 50
-        self.PACKAGE = 100
+        self.PACKAGE = 'BGA_PKG'
         self.NUM_PINS_LENGTH = 10    
         self.NUM_PINS_WIDTH = 6    
         self.LENGTH = 9.0 # BGA length 9 mm   # Vertical     
@@ -252,6 +252,10 @@ class PyApp(Gtk.Window):
         self.save_label.set_label("<b>Footprint Output</b>")
         self.save_label.set_use_markup(True)
         self.save_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
+        self.package_entry = Gtk.Entry()
+        self.package_entry.set_visibility(True)
+        self.package_entry.set_max_length(10)
+        self.package_entry.set_text(str(self.PACKAGE))
         self.save_button = Gtk.Button("")
         for child in self.save_button : 
             child.set_label("<b>Save KiCAD Footprint</b>")
@@ -270,6 +274,7 @@ class PyApp(Gtk.Window):
 
         self.vbox7.pack_start(hseparator, False, False, 0)
         self.vbox7.pack_start(self.save_label, False, False, 0)
+        self.vbox7.pack_start(self.package_entry, False, False, 0)
         self.vbox7.pack_start(self.save_button, False, False, 0)
         self.vbox7.pack_start(self.about_button, False, False, 0)
         self.vbox7.pack_start(self.exit_button, False, False, 0)
@@ -288,6 +293,7 @@ class PyApp(Gtk.Window):
             self.populate.append([x,y])
 
     def on_save_button(self, widget):
+        self.PACKAGE = str(self.package_entry.get_text())
         dialog = Gtk.FileChooserDialog("Please choose a kicad file", self,
             Gtk.FileChooserAction.SAVE,
             (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,
