@@ -34,9 +34,8 @@ class PyApp(Gtk.Window):
         self.BEGIN_MOUSE_Y = 0
         self.END_MOUSE_X = 0
         self.END_MOUSE_Y = 0
-
-        self.bga_operation = 0
-
+       
+        # Initialize with some reasonable parameters
         self.SCALING = 50
         self.PACKAGE = 100
         self.NUM_PINS = 10    
