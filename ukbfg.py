@@ -541,10 +541,8 @@ class PyApp(Gtk.Window):
         self.CALC_BALL_DIAMETER = self.BALL_DIAMETER
 
         #Initialize
-
         self.RESULT=''
         cr.set_source_rgb(0.8, 0.8, 0.8)
-
         cr.select_font_face("Times New Roman", cairo.FONT_SLANT_NORMAL, 
             cairo.FONT_WEIGHT_NORMAL)
 
@@ -698,7 +696,7 @@ class PyApp(Gtk.Window):
         self.RESULT += "  (fp_line (start -"+ str(self.LENGTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.LENGTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
         self.RESULT += "  (fp_line (start "+ str(self.LENGTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.LENGTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
 
-        #Origin X and Y
+        #Origin X and Y for SMD balls
         for i in range(0, len(self.populate)):
             pt_x = -self.CALC_WIDTH/2+self.populate[i][0]*self.BALL_PITCH
             pt_y = -self.CALC_LENGTH/2+self.populate[i][1]*self.BALL_PITCH
@@ -713,7 +711,6 @@ class PyApp(Gtk.Window):
 
         self.RESULT += ")" + "\n"
         #print self.RESULT
-        
         return False
 
 PyApp()
