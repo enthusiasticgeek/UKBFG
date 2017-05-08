@@ -49,8 +49,8 @@ class PyApp(Gtk.Window):
         #self.set_size_request(int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_X+200, int(self.BALL_PITCH*self.SCALING*self.NUM_PINS)+self.OFFSET_Y+200)
         self.set_position(Gtk.WindowPosition.CENTER)
         # DEC alphabet nomenclature implemented to avoid I (1), O (0) and S (5) - Letters that confuse with numbers.
-        self.COL = ['A','B','C','D','E','F','G','H','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-        self.ROW = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]
+        self.COL = ['A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','T','U','V','W','X','Y','Z']
+        self.ROW = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
         self.RESULT = ''
 
         # Parameters for the math calculation
@@ -545,11 +545,11 @@ class PyApp(Gtk.Window):
         cr.select_font_face("Times New Roman", cairo.FONT_SLANT_NORMAL, 
             cairo.FONT_WEIGHT_NORMAL)
 
-        # If BGA count exceeds 25*25 pins
+        # If BGA count exceeds 23*23 pins
         cr.set_source_rgb(0.0, 0.0, 0.0)
-        if( self.NUM_PINS < 2 or self.NUM_PINS > 25):
+        if( self.NUM_PINS < 2 or self.NUM_PINS > 23):
             cr.move_to(self.OFFSET_X-99, self.OFFSET_Y-40)
-            cr.show_text("BGA PIN COUNT outside [2,25]")
+            cr.show_text("BGA PIN COUNT outside [2,23]")
             return False
 
         # Set Axis names
