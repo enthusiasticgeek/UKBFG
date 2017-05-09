@@ -17,6 +17,7 @@ import math
 import cairo
 import time
 import datetime
+import os
 
 class MouseButtons:
 
@@ -291,6 +292,7 @@ class PyApp(Gtk.Window):
             self.populate.append([x,y])
 
     def on_save_button(self, widget):
+        # sanity check function
         if self.LENGTH <= self.CALC_LENGTH or self.WIDTH <= self.CALC_WIDTH:
            dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR,
                Gtk.ButtonsType.CANCEL, "Error: Length/width <= (#balls-1)*pitch")
@@ -299,7 +301,6 @@ class PyApp(Gtk.Window):
            dialog.run()
            dialog.destroy()
            return False
-
         self.PACKAGE = str(self.package_entry.get_text())
         dialog = Gtk.FileChooserDialog("Please choose a kicad file", self,
             Gtk.FileChooserAction.SAVE,
@@ -322,6 +323,29 @@ class PyApp(Gtk.Window):
            # check file extension. If no file extension add it
            if ".kicad_mod" not in kicad_filename:
               kicad_filename += ".kicad_mod"
+           # check if file with the same filename exists -> Prompt user yes or no to overwrite
+           # Case I: File exists
+           if os.path.exists(kicad_filename) == True:
+              dialog2 = Gtk.MessageDialog(self, 0, Gtk.MessageType.QUESTION,
+                  Gtk.ButtonsType.YES_NO, "The file "+kicad_filename+" exists.\nOverwrite it?")
+              dialog2.format_secondary_text(
+                  "Do you want to overwrite file "+kicad_filename+".")
+              response2 = dialog2.run()
+              # If the user responds NO. Do nothing.
+              if response2 == Gtk.ResponseType.NO:
+                 dialog2.destroy()
+                 dialog.destroy()
+                 return False 
+              # If the user responds YES. Overwrite the file.
+              elif response2 == Gtk.ResponseType.YES:
+                 try:
+                     open(kicad_filename, 'w').write(self.RESULT)
+                 except SomeError as err:
+                     print('Could not save %s: %s' % (kicad_filename, err))
+                 dialog2.destroy()
+                 dialog.destroy()
+                 return False
+           # Case II: File doesn't already exist -> create it.
            try:
                 open(kicad_filename, 'w').write(self.RESULT)
            except SomeError as err:
@@ -329,6 +353,7 @@ class PyApp(Gtk.Window):
         elif response == Gtk.ResponseType.CANCEL:
                 print("Cancel clicked")
         dialog.destroy()
+        return False
 
     def on_exit_button(self, widget):
         Gtk.main_quit()
