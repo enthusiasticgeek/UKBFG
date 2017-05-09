@@ -71,6 +71,7 @@ class PyApp(Gtk.Window):
         self.darea.connect("button-release-event", self.on_button_release)
         self.darea.connect("motion_notify_event", self.on_motion_notify_event)
 
+        # Draw all front-end widgets
         self.vbox = Gtk.VBox(False,2)
         self.vbox.pack_start(self.darea, False, False, 0)
 
@@ -146,28 +147,27 @@ class PyApp(Gtk.Window):
 
         hseparator = Gtk.HSeparator()
         self.ball_dimensions_label = Gtk.Label("")
-        self.ball_dimensions_label.set_label("<b>IC Dimensions (mm) [LxW] </b>")
+        self.ball_dimensions_label.set_label("<b>IC Dimensions (mm) [WxL] </b>")
         self.ball_dimensions_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.ball_dimensions_label.set_use_markup(True)
-        self.ball_dimensions_entry_length = Gtk.Entry()
-        self.ball_dimensions_entry_length.set_visibility(True)
-        self.ball_dimensions_entry_length.set_max_length(5)
-        self.ball_dimensions_entry_length.set_text(str(self.LENGTH))
         self.ball_dimensions_entry_width = Gtk.Entry()
         self.ball_dimensions_entry_width.set_visibility(True)
         self.ball_dimensions_entry_width.set_max_length(5)
         self.ball_dimensions_entry_width.set_text(str(self.WIDTH))
         self.ball_dimensions_button = Gtk.Button("")
+        self.ball_dimensions_entry_length = Gtk.Entry()
+        self.ball_dimensions_entry_length.set_visibility(True)
+        self.ball_dimensions_entry_length.set_max_length(5)
+        self.ball_dimensions_entry_length.set_text(str(self.LENGTH))
         for child in self.ball_dimensions_button : 
             child.set_label("<b>Update Ball dimensions</b>")
             child.set_use_markup(True)
             child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
-
         self.vbox3.pack_start(hseparator, False, False, 0)
         self.vbox3.pack_start(self.ball_dimensions_label, False, False, 0)
-        self.vbox3.pack_start(self.ball_dimensions_entry_length, False, False, 0)
         self.vbox3.pack_start(self.ball_dimensions_entry_width, False, False, 0)
+        self.vbox3.pack_start(self.ball_dimensions_entry_length, False, False, 0)
         self.vbox3.pack_start(self.ball_dimensions_button, False, False, 0)
 
         self.ball_dimensions_button.connect("clicked", self.on_ball_dimensions_button)
@@ -177,25 +177,24 @@ class PyApp(Gtk.Window):
         self.pins_label.set_label("<b>Pins</b>")
         self.pins_label.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkgreen")[1])
         self.pins_label.set_use_markup(True)
-        self.pins_entry_length = Gtk.Entry()
-        self.pins_entry_length.set_visibility(True)
-        self.pins_entry_length.set_max_length(5)
-        self.pins_entry_length.set_text(str(self.NUM_PINS_LENGTH))
         self.pins_entry_width = Gtk.Entry()
         self.pins_entry_width.set_visibility(True)
         self.pins_entry_width.set_max_length(5)
         self.pins_entry_width.set_text(str(self.NUM_PINS_WIDTH))
+        self.pins_entry_length = Gtk.Entry()
+        self.pins_entry_length.set_visibility(True)
+        self.pins_entry_length.set_max_length(5)
+        self.pins_entry_length.set_text(str(self.NUM_PINS_LENGTH))
         self.pins_button = Gtk.Button("")
         for child in self.pins_button : 
             child.set_label("<b>Update pins</b>")
             child.set_use_markup(True)
             child.modify_fg(Gtk.StateType.NORMAL, Gdk.Color.parse("darkred")[1])
 
-
         self.vbox4.pack_start(hseparator, False, False, 0)
         self.vbox4.pack_start(self.pins_label, False, False, 0)
-        self.vbox4.pack_start(self.pins_entry_length, False, False, 0)
         self.vbox4.pack_start(self.pins_entry_width, False, False, 0)
+        self.vbox4.pack_start(self.pins_entry_length, False, False, 0)
         self.vbox4.pack_start(self.pins_button, False, False, 0)
         
         self.pins_button.connect("clicked", self.on_pins_button)
@@ -283,7 +282,6 @@ class PyApp(Gtk.Window):
         self.about_button.connect("clicked", self.on_about_button)
         self.exit_button.connect("clicked", self.on_exit_button)
 
-
         self.add(self.vbox)
         self.show_all()
 
@@ -332,10 +330,8 @@ class PyApp(Gtk.Window):
                 print("Cancel clicked")
         dialog.destroy()
 
-
     def on_exit_button(self, widget):
         Gtk.main_quit()
-        
 
     def on_about_button(self, widget):
         about = Gtk.AboutDialog(PyApp,self)
@@ -517,18 +513,6 @@ class PyApp(Gtk.Window):
         if isinstance(pins_length, (int)) == True and isinstance(pins_width, (int)) == True:
            self.NUM_PINS_LENGTH = pins_length
            self.NUM_PINS_WIDTH = pins_width
-           #if self.NUM_PINS_WIDTH < max(self.populate,key=lambda item:item[0])[0]:
-           #for i in range(len(self.populate)):
-           #    if self.populate[i][0] > self.NUM_PINS_WIDTH:
-           #       print self.populate[i] 
-           #        while [self.populate[i][0],self.populate[i][1]] in self.populate: self.populate.remove([self.populate[i][0],self.populate[i][1]])
-           
-           #if self.NUM_PINS_LENGTH < max(self.populate,key=lambda item:item[1])[1]:
-           #for i in range(len(self.populate)):
-           #    if self.populate[i][1] > self.NUM_PINS_LENGTH:
-           #       print self.populate[i] 
-           #        while [self.populate[i][0],self.populate[i][1]] in self.populate: self.populate.remove([self.populate[i][0],self.populate[i][1]])
- 
            self.update_area()
            self.darea.queue_draw()
         else:
@@ -730,8 +714,10 @@ class PyApp(Gtk.Window):
         self.RESULT += "  (fp_line (start -"+ str(self.WIDTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.WIDTH/2+0.7)+" "+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
         self.RESULT += "  (fp_line (start "+ str(self.WIDTH/2+0.7)+" "+ str(+self.LENGTH/2+0.7)+") (end "+ str(self.WIDTH/2+0.7)+" -"+ str(self.LENGTH/2+0.7)+") (layer F.CrtYd) (width 0.05))" + "\n"
 
-        #Origin X and Y for SMD balls
+        # X and Y for SMD balls
         for i in range(0, len(self.populate)):
+          # This condition is a sanity check
+          if self.populate[i][0] <= self.NUM_PINS_WIDTH-1 and self.populate[i][1] <= self.NUM_PINS_LENGTH-1:
             pt_x = -self.CALC_WIDTH/2+self.populate[i][0]*self.BALL_PITCH
             pt_y = -self.CALC_LENGTH/2+self.populate[i][1]*self.BALL_PITCH
             self.RESULT += "(pad "+str(self.COL[self.populate[i][1]]+str(self.ROW[self.populate[i][0]]))+" smd circle (at "+str(pt_x)+" "+str(pt_y)+") (size "+str(self.CALC_BALL_DIAMETER)+" "+str(self.CALC_BALL_DIAMETER)+") (layers F.Cu F.Paste F.Mask))" + "\n"
