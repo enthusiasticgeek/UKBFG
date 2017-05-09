@@ -23,9 +23,7 @@ C. Usage:
 
 3. Select the Ball diameter (mm) of the IC.
 
-4. Select the Ball dimensions (mm) - Length/Width (both assumed to be same) of the IC. 
-
-   Note: I always keep Length and Width dimensions to be the same since all commonly found ICs in BGA packaging style, that I have encountered, have equal length and width. 
+4. Select the Ball dimensions (mm) - Length and Width (both may be different e.g. WBGA-84 package) of the IC. 
    
 5. Select the Number of Pins of the IC.
 
