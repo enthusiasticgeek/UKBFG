@@ -336,7 +336,7 @@ class PyApp(Gtk.Window):
     def on_about_button(self, widget):
         about = Gtk.AboutDialog(PyApp,self)
         about.set_program_name("Unofficial KiCAD BGA Footprint Generator (UKBFG)")
-        about.set_version("Version: 0.1")
+        about.set_version("Version: 0.2")
         about.set_copyright("Copyright (c) 2017 Pratik M Tambe <enthusiasticgeek@gmail.com>")
         about.set_comments("A simple tool for generating KiCAD BGA footprint")
         about.set_website("https://github.com/enthusiasticgeek")
@@ -682,10 +682,10 @@ class PyApp(Gtk.Window):
         self.RESULT += "  (descr \"BGA-"+str(self.PACKAGE)+", "+str(self.NUM_PINS_WIDTH)+"x"+str(self.NUM_PINS_LENGTH)+", "+str(self.WIDTH)+"x"+str(self.LENGTH)+"mm package, pitch "+str(self.BALL_PITCH)+"mm\")" + "\n"
         self.RESULT += "  (tags BGA-"+str(self.PACKAGE)+")" + "\n"
         self.RESULT += "  (attr smd)" + "\n"
-        self.RESULT += "  (fp_text reference REF** (at 0 "+ str(-self.CALC_WIDTH/2-1.50-self.BALL_DIAMETER) +") (layer F.SilkS)" + "\n"
+        self.RESULT += "  (fp_text reference REF** (at 0 -"+ str(self.LENGTH/2+1) +") (layer F.SilkS)" + "\n"
         self.RESULT += "    (effects (font (size 1 1) (thickness 0.15)))" + "\n"
         self.RESULT += "  )" + "\n"
-        self.RESULT += "  (fp_text value BGA-"+str(self.PACKAGE)+"_"+str(self.NUM_PINS_WIDTH)+"x"+str(self.NUM_PINS_LENGTH)+"_"+str(self.WIDTH)+".0x"+str(self.LENGTH)+".0mm_Pitch"+str(self.BALL_PITCH)+"mm (at 0 "+ str(self.CALC_WIDTH/2+1.50+self.BALL_DIAMETER) +") (layer F.Fab)" + "\n"
+        self.RESULT += "  (fp_text value "+str(self.PACKAGE)+"_"+str(self.NUM_PINS_WIDTH)+"x"+str(self.NUM_PINS_LENGTH)+"_"+str(self.WIDTH)+"x"+str(self.LENGTH)+"mm_Pitch"+str(self.BALL_PITCH)+"mm (at 0 "+ str(self.LENGTH/2+1) +") (layer F.Fab)" + "\n"
         self.RESULT += "    (effects (font (size 1 1) (thickness 0.15)))" + "\n"
         self.RESULT += "  )" + "\n"
 
