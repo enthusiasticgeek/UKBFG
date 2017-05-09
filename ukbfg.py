@@ -39,7 +39,7 @@ class PyApp(Gtk.Window):
         self.SCALING = 50
         self.PACKAGE = 'BGA_PKG'
         self.NUM_PINS_LENGTH = 10    
-        self.NUM_PINS_WIDTH = 6    
+        self.NUM_PINS_WIDTH = 10    
         self.LENGTH = 9.0 # BGA length 9 mm   # Vertical     
         self.WIDTH = 9.0  # BGA width 9 mm    # Horizontal   
         self.OFFSET_X = 100
@@ -293,6 +293,15 @@ class PyApp(Gtk.Window):
             self.populate.append([x,y])
 
     def on_save_button(self, widget):
+        if self.LENGTH <= self.CALC_LENGTH or self.WIDTH <= self.CALC_WIDTH:
+           dialog = Gtk.MessageDialog(self, 0, Gtk.MessageType.ERROR,
+               Gtk.ButtonsType.CANCEL, "Error: Length/width <= (#balls-1)*pitch")
+           dialog.format_secondary_text(
+               "Incorrect calculation. Please update one or more parameters: length, width, ball pitch, pins.")
+           dialog.run()
+           dialog.destroy()
+           return False
+
         self.PACKAGE = str(self.package_entry.get_text())
         dialog = Gtk.FileChooserDialog("Please choose a kicad file", self,
             Gtk.FileChooserAction.SAVE,
@@ -508,6 +517,18 @@ class PyApp(Gtk.Window):
         if isinstance(pins_length, (int)) == True and isinstance(pins_width, (int)) == True:
            self.NUM_PINS_LENGTH = pins_length
            self.NUM_PINS_WIDTH = pins_width
+           #if self.NUM_PINS_WIDTH < max(self.populate,key=lambda item:item[0])[0]:
+           #for i in range(len(self.populate)):
+           #    if self.populate[i][0] > self.NUM_PINS_WIDTH:
+           #       print self.populate[i] 
+           #        while [self.populate[i][0],self.populate[i][1]] in self.populate: self.populate.remove([self.populate[i][0],self.populate[i][1]])
+           
+           #if self.NUM_PINS_LENGTH < max(self.populate,key=lambda item:item[1])[1]:
+           #for i in range(len(self.populate)):
+           #    if self.populate[i][1] > self.NUM_PINS_LENGTH:
+           #       print self.populate[i] 
+           #        while [self.populate[i][0],self.populate[i][1]] in self.populate: self.populate.remove([self.populate[i][0],self.populate[i][1]])
+ 
            self.update_area()
            self.darea.queue_draw()
         else:
