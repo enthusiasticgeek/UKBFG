@@ -1,7 +1,7 @@
 # UKBFG
 # UnOfficial KiCAD BGA Footprint Generator (UKBFG)
 
-This is a simple python based tool to generate Ball Grid Array (BGA) footprints for KiCAD EDA http://kicad-pcb.org/.
+This is a simple python based tool to generate Ball Grid Array (BGA) PCB footprints for KiCAD EDA http://kicad-pcb.org/.
 
 A. Dependencies:
 
