@@ -33,7 +33,7 @@ class PyApp(Gtk.Window):
         super(PyApp, self).__init__()
         
         #signal handler setup
-        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
         signal.signal(signal.SIGTERM, self.signal_handler)
         signal.signal(signal.SIGUSR1, self.signal_handler)
        
