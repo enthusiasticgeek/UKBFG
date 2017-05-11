@@ -18,6 +18,7 @@ import cairo
 import time
 import datetime
 import os
+import signal
 
 class MouseButtons:
 
@@ -30,7 +31,12 @@ class PyApp(Gtk.Window):
 
     def __init__(self):
         super(PyApp, self).__init__()
-
+        
+        #signal handler setup
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
+        signal.signal(signal.SIGUSR1, self.signal_handler)
+       
         self.BEGIN_MOUSE_X = 0
         self.BEGIN_MOUSE_Y = 0
         self.END_MOUSE_X = 0
@@ -290,6 +296,9 @@ class PyApp(Gtk.Window):
         for x in range(0, self.NUM_PINS_WIDTH):
           for y in range(0, self.NUM_PINS_LENGTH):
             self.populate.append([x,y])
+
+    def signal_handler(self, signum, frame):
+        print("signal received ", signum, frame)
 
     def on_save_button(self, widget):
         # sanity check function
