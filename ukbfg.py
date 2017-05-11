@@ -370,7 +370,7 @@ class PyApp(Gtk.Window):
     def on_about_button(self, widget):
         about = Gtk.AboutDialog(PyApp,self)
         about.set_program_name("Unofficial KiCAD BGA Footprint Generator (UKBFG)")
-        about.set_version("Version: 0.2")
+        about.set_version("Version: 0.3")
         about.set_copyright("Copyright (c) 2017 Pratik M Tambe <enthusiasticgeek@gmail.com>")
         about.set_comments("A simple tool for generating KiCAD BGA footprint")
         about.set_website("https://github.com/enthusiasticgeek")
