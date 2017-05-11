@@ -34,7 +34,7 @@ This is a simple python based tool to generate Ball Grid Array (BGA) PCB footpri
 
 8. One may **save** KiCAD BGA footprints to a drive. These may be later opened up in the KiCAD Footprint Editor Tool inside KiCAD EDA.
 
-**Note: Currently upto 22x22 BGA is supported**
+**Note: Currently W x L design upto 22 x 22 ball pins BGA is supported using this tool.**
 
 
    
