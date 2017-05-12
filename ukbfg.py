@@ -27,10 +27,10 @@ class MouseButtons:
     RIGHT_BUTTON = 3
 
 
-class PyApp(Gtk.Window):
+class UKBFG(Gtk.Window):
 
     def __init__(self):
-        super(PyApp, self).__init__()
+        super(UKBFG, self).__init__()
         
         #signal handler setup
         signal.signal(signal.SIGINT, signal.SIG_DFL)
@@ -368,7 +368,7 @@ class PyApp(Gtk.Window):
         Gtk.main_quit()
 
     def on_about_button(self, widget):
-        about = Gtk.AboutDialog(PyApp,self)
+        about = Gtk.AboutDialog(UKBFG,self)
         about.set_program_name("Unofficial KiCAD BGA Footprint Generator (UKBFG)")
         about.set_version("Version: 0.3")
         about.set_copyright("Copyright (c) 2017 Pratik M Tambe <enthusiasticgeek@gmail.com>")
@@ -767,6 +767,6 @@ class PyApp(Gtk.Window):
         #print self.RESULT
         return False
 
-PyApp()
+UKBFG()
 Gtk.main()
 
