@@ -36,5 +36,5 @@ This is a simple python based tool to generate Ball Grid Array (BGA) PCB footpri
 
 **Note: Currently W x L design upto 22 x 22 ball pins BGA is supported using this tool.**
 
-
+![alt text](https://github.com/enthusiasticgeek/UKBFG/blob/master/ukbfg_screenshot0.png "UKBFG")
    
